@@ -14,7 +14,7 @@ db = client['bill-of-materials-db']
 collection = db['data'] 
 
 class Product(Resource):
-     def get(self, product_id=None):
+    def get(self, product_id=None):
         if product_id:
             product_id = ObjectId(product_id)
             result = collection.find({"_id":product_id},{"_id":0, "stock_level": 1, "name": 1, "subassemblies": 1 })
