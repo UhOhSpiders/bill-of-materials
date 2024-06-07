@@ -5,6 +5,8 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from bson import ObjectId
 from ValidationSchema import product_validator
+import json
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
