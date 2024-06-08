@@ -1,6 +1,14 @@
 import pytest
 import json
 from main import app
+from sample_data import sample_data
+
+@pytest.fixture()
+def client():
+    app.config.update({
+        "TESTING": True,
+    })
+    return app.test_client()
 
 # GET Methods:
 
@@ -11,17 +19,20 @@ from main import app
 # Assert the response data contains the expected product information (name, stock level, subassemblies).
 # Test with an invalid product ID (e.g., non-existent ID) and assert a 404 (Not Found) status code.
 # Test getting all products:
-
+def test_post(client):
+    json_data = json.loads(sample_data.valid_post)
+    response = client.post('http://localhost:5000/products',json=json_data)
+    assert response.status_code == 201
 # Send a GET request to /products.
 # Assert the status code is 200 (OK).
 # Assert the response data is a list and contains multiple product entries.
 # Optionally, test for specific product names or other details depending on your data.
-def test_get_all():
-    response = app.test_client().get('http://localhost:5000/products')
+def test_get_all(client):
+    response = client.get('http://localhost:5000/products')
     assert response.status_code == 200
     if response.status_code == 200:
         result = json.loads(response.json)
-        assert isinstance(result, int)
+        assert isinstance(result, list)
 
 
 # POST Method:
