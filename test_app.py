@@ -1,6 +1,6 @@
 import pytest
 import json
-from main import app
+from app import app
 from sample_data import sample_data
 
 @pytest.fixture()

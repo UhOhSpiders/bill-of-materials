@@ -4,8 +4,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson import ObjectId
-from ValidationSchema import product_validator
-import json
+from data_validation import product_validator
 
 app = Flask(__name__)
 cors = CORS(app)
