@@ -31,7 +31,7 @@ jobs:
 
     - name: "Create docker image"
       run: |
-        docker run --name some-mongo -d mongo:tag
+        docker run --name some-mongo -d mongo:4.4.24
 
     - name: Start MongoDB
       uses: MongoCamp/mongodb-github-action@1.0.0
