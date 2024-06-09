@@ -34,7 +34,7 @@ jobs:
         docker run --name some-mongo -d mongo:4.4.24
 
     - name: Start MongoDB
-      uses: MongoCamp/mongodb-github-action@1.0.0
+      uses: supercharge/mongodb-github-action@1.11.0
       with:
         mongodb-version: "8.0"
 
