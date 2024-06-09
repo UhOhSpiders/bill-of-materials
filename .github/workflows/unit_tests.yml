@@ -26,17 +26,17 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
     
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v3
 
-    - name: "Create docker image"
-      run: |
-        docker run --name some-mongo -d mongo:4.4.24
+    # - name: "Create docker image"
+    #   run: |
+    #     docker run --name some-mongo -d mongo:4.4.24
 
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.11.0
       with:
-        mongodb-version: "8.0"
+        mongodb-version: "8.0-rc-jammy"
 
     - name: Run tests
       run: pytest
