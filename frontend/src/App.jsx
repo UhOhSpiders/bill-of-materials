@@ -1,4 +1,4 @@
-import useFetch from './useFetch'
+import useFetch from '../utilities/useFetch'
 import './App.css'
 
 import BOMTable from './BOMTable'

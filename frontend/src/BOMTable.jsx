@@ -7,10 +7,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { getNestedCosts } from "../utilities/getNestedCosts";
+import { MdSubdirectoryArrowRight } from "react-icons/md";
 
 const BOMTable = ({ data }) => {
   
-  const checkTrue = (arr) => arr.every(obj => obj.complete === true)
+  const checkChildrenComplete = (arr) => arr.every(obj => obj.complete === true)
 
   const rows = data.map((assembly, index) => {
     let nestedCosts = getNestedCosts(assembly)
@@ -19,38 +20,41 @@ const BOMTable = ({ data }) => {
       <TableRow
         key={index}
         sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
-        style={{backgroundColor:"red"}}
+        style={{ backgroundColor: checkChildrenComplete(assembly.subassemblies) ? "darkseagreen" : "darkorange" }}
       >
         <TableCell>{assembly.name}</TableCell>
-        <TableCell>{assembly.stock_level}</TableCell>
-        <TableCell>total {nestedCosts[assembly.name]}</TableCell>
+        <TableCell></TableCell>
+        <TableCell>£{nestedCosts[assembly.name]}</TableCell>
         <TableCell>assembly</TableCell>
-        <TableCell>{checkTrue(assembly.subassemblies)?<>complete</>:<>incomplete</>}</TableCell>
+        <TableCell>{checkChildrenComplete(assembly.subassemblies)?<>complete</>:<>incomplete</>}</TableCell>
         </TableRow>
         {assembly.subassemblies.map((subassembly, index) => {
           return (
             <>
             <TableRow
             key={index}
-            style={{backgroundColor:"grey"}}
+            style={{ backgroundColor: subassembly.complete ? "darkseagreen" : "khaki" }}
             >
               <TableCell
               style={{paddingLeft:50}}
-              >{subassembly.name}</TableCell>
+              ><MdSubdirectoryArrowRight/>{subassembly.name}</TableCell>
               <TableCell>{subassembly.stock_level}</TableCell>
-              <TableCell>{nestedCosts[subassembly.name]}</TableCell>
+              <TableCell>£{nestedCosts[subassembly.name]}</TableCell>
               <TableCell>subassembly</TableCell>
               <TableCell>{subassembly.complete?<>complete</>:<>incomplete</>}</TableCell>
             </TableRow>
               {subassembly.components.map((component) => {
                 return (
-                  <TableRow>
+                  <TableRow
+                  style={{ backgroundColor: "lavender"}}
+                  >
                   <TableCell
                   style={{paddingLeft:80}}
-                  >{component.name}</TableCell>
+                  ><MdSubdirectoryArrowRight/>{component.name}</TableCell>
                   <TableCell>{component.stock_level}</TableCell>
-                  <TableCell>{component.cost}</TableCell>
+                  <TableCell>£{component.cost}</TableCell>
                   <TableCell>component</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
                 );
               })}
@@ -66,12 +70,12 @@ const BOMTable = ({ data }) => {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Stock Level</TableCell>
-              <TableCell>Cost</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Status</TableCell>
+            <TableRow style={{ backgroundColor: "lightblue"}}>
+              <TableCell style={{fontWeight:"bold"}}>Name</TableCell>
+              <TableCell style={{fontWeight:"bold"}}>Stock Level</TableCell>
+              <TableCell style={{fontWeight:"bold"}}>Cost</TableCell>
+              <TableCell style={{fontWeight:"bold"}}>Category</TableCell>
+              <TableCell style={{fontWeight:"bold"}}>Status</TableCell>
             </TableRow>
           </TableHead>
           
