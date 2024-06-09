@@ -16,10 +16,12 @@ collection = db['data']
 
 class Product(Resource):
     def get(self, product_id=None):
-        if product_id:
+        if product_id and ObjectId.is_valid(product_id):
             product_id = ObjectId(product_id)
             result = collection.find({"_id":product_id},{"_id":0, "stock_level": 1, "name": 1, "subassemblies": 1 })
             return dumps(result), 200
+        if product_id and not ObjectId.is_valid(product_id):
+            return {"error":"Invalid ID"}, 404
         else:
             result = collection.find({},{"_id":1, "stock_level": 1, "name": 1, "subassemblies": 1 })
             return dumps(result), 200
@@ -33,13 +35,16 @@ class Product(Resource):
             return "data added", 201
     
     def put(self, product_id):
-        validated_product = product_validator(request.json)
-        if request.json is not validated_product:
-            return {"error":"invalid data format"}, 400
+        if product_id and ObjectId.is_valid(product_id):
+            validated_product = product_validator(request.json)
+            if request.json is not validated_product:
+                return {"error":"Invalid data format"}, 400
+            else:
+                product_id = ObjectId(product_id)
+                collection.update_one({"_id":product_id},{"$set":request.json})
+                return "product updated", 201
         else:
-            product_id = ObjectId(product_id)
-            collection.update_one({"_id":product_id},{"$set":request.json})
-            return "product updated", 201
+            return {"error":"Invalid ID"}, 404
     
 api.add_resource(Product, "/product/<string:product_id>","/products")
 
