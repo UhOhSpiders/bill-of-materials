@@ -1,4 +1,4 @@
-name: Flask CI
+name: API CI
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
         os: [ ubuntu-latest ]
         python-version:
           - "3.12"
-    name: "test"
+    name: "Unit testing API endpoints with MongoDB"
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -31,5 +31,5 @@ jobs:
       with:
         mongodb-version: "8.0-rc-jammy"
 
-    - name: Run tests
+    - name: Run unit tests
       run: pytest
